@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "walletconnectexample://",
     "name": "WalletConnectExample",
     "slug": "WalletConnectExample",
     "version": "1.0.0",
