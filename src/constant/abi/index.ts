@@ -1,3 +1,2 @@
-import erc20 from "./erc20.json";
-
-export { erc20 };
+import { abi } from "./erc20";
+export { abi };

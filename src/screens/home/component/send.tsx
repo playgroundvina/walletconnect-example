@@ -1,11 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { Text, Button, TextInput, StyleSheet } from "react-native";
 import { Address, formatEther, parseEther } from "viem";
-import { useAccount, useBalance, useSendTransaction } from "wagmi";
+import {
+  erc20ABI,
+  useAccount,
+  useBalance,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 
 const ModalSendToken = () => {
-  const { isLoading, sendTransactionAsync } = useSendTransaction();
   const { address } = useAccount();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [params, setParams] = useState<{
     to: Address;
@@ -17,6 +23,19 @@ const ModalSendToken = () => {
     value: "0",
   });
 
+  // const { writeAsync, isLoading } = useContractWrite({
+  //   abi,
+  //   address: address,
+  //   functionName: "transfer",
+  //   args: [params.to, parseEther(params.value)],
+  // });
+
+  const { writeAsync } = useSendTransaction({
+    tokenAddress: params.token,
+    to: params.to,
+    value: parseEther(params.value),
+  });
+
   const balance = useBalance({
     address: address,
     token: params.token,
@@ -25,14 +44,12 @@ const ModalSendToken = () => {
 
   const handleSend = async () => {
     try {
-      const data = await sendTransactionAsync({
-        to: params.to,
-        value: parseEther(params.value),
-      });
-
-      console.log("---------------data-----------------", data);
+      setIsLoading(true);
+      await writeAsync?.();
     } catch (error) {
       console.log("---------------error--------------", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -85,3 +102,21 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+const useSendTransaction = ({
+  tokenAddress,
+  to,
+  value,
+}: {
+  tokenAddress: Address;
+  to: Address;
+  value: bigint;
+}) => {
+  const { config } = usePrepareContractWrite({
+    address: tokenAddress,
+    abi: erc20ABI,
+    functionName: "transfer",
+    args: [to, value],
+  });
+  return useContractWrite(config);
+};
