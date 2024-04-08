@@ -7,6 +7,8 @@ import {
   Web3Modal,
 } from "@web3modal/wagmi-react-native";
 import Home from "./src/screens/home/home";
+import * as Linking from "expo-linking";
+import { PoolsChain } from "./src/config/wallet";
 
 const projectId = "61308cbd741604ec945e0cef115985f8";
 
@@ -21,7 +23,7 @@ const metadata = {
   },
 };
 
-const chains = [bsc];
+const chains = [bsc, PoolsChain];
 
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
@@ -37,7 +39,13 @@ createWeb3Modal({
   ],
 });
 
+const prefix = Linking.createURL("/");
+
 export default function App() {
+  const linking = {
+    prefixes: [prefix],
+  };
+
   return (
     <WagmiConfig config={wagmiConfig}>
       <Home />

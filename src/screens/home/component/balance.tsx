@@ -4,9 +4,9 @@ import { Address, useBalance } from "wagmi";
 const Balance = ({ account }: { account: Address }) => {
   const { data } = useBalance({
     address: account,
+    watch: true,
   });
 
-  console.log("balance", data);
   return (
     <Text>
       Balance:{data?.formatted} {data?.symbol}
