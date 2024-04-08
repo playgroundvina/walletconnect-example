@@ -1,6 +1,11 @@
 {
   "expo": {
-    "scheme": "walletconnectexample://",
+    "scheme": "walletconnectexample",
+    "universalLinks": {
+      "schemes": [
+        "walletconnectexample"
+      ]
+    },
     "name": "WalletConnectExample",
     "slug": "WalletConnectExample",
     "version": "1.0.0",
@@ -16,13 +21,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.WalletConnectExample"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.WalletConnectExample"
     },
     "web": {
       "favicon": "./assets/favicon.png"

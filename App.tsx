@@ -6,9 +6,9 @@ import {
   defaultWagmiConfig,
   Web3Modal,
 } from "@web3modal/wagmi-react-native";
-import Home from "./src/screens/home";
+import Home from "./src/screens/home/home";
 
-const projectId = "";
+const projectId = "61308cbd741604ec945e0cef115985f8";
 
 // 2. Create config
 const metadata = {
