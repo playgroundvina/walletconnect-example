@@ -7,8 +7,9 @@ import {
   Web3Modal,
 } from "@web3modal/wagmi-react-native";
 import Home from "./src/screens/home";
+import * as Linking from "expo-linking";
 
-const projectId = "";
+const projectId = "61308cbd741604ec945e0cef115985f8";
 
 // 2. Create config
 const metadata = {
@@ -37,7 +38,14 @@ createWeb3Modal({
   ],
 });
 
+const prefix = Linking.createURL("/")
+
 export default function App() {
+
+  const linking = {
+    prefixes: [prefix]
+  }
+
   return (
     <WagmiConfig config={wagmiConfig}>
       <Home />
